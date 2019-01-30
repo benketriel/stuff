@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.329
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2048", "2048\2048.csproj", "{9956A484-6BD1-4D63-AC24-1CCC8B985F57}"
 EndProject
@@ -18,6 +18,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lib", "Lib\Lib.csproj", "{13F55EA1-0D02-4A04-B611-7C22565C8F8D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing", "Testing\Testing.csproj", "{3B365FB6-35BA-4D48-A219-168F194CB46C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PageWatcher", "PageWatcher\PageWatcher.csproj", "{D71DFC26-60FA-44BA-8356-613D490A8824}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,8 +59,15 @@ Global
 		{3B365FB6-35BA-4D48-A219-168F194CB46C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B365FB6-35BA-4D48-A219-168F194CB46C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B365FB6-35BA-4D48-A219-168F194CB46C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D71DFC26-60FA-44BA-8356-613D490A8824}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D71DFC26-60FA-44BA-8356-613D490A8824}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D71DFC26-60FA-44BA-8356-613D490A8824}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D71DFC26-60FA-44BA-8356-613D490A8824}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F6027AC5-AF47-4629-A12D-4E1D34962DA3}
 	EndGlobalSection
 EndGlobal
