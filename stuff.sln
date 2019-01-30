@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing", "Testing\Testing.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PageWatcher", "PageWatcher\PageWatcher.csproj", "{D71DFC26-60FA-44BA-8356-613D490A8824}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeleniumTest", "SeleniumTest\SeleniumTest.csproj", "{577D399D-C84A-4D60-B695-62E176516BB8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{D71DFC26-60FA-44BA-8356-613D490A8824}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D71DFC26-60FA-44BA-8356-613D490A8824}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D71DFC26-60FA-44BA-8356-613D490A8824}.Release|Any CPU.Build.0 = Release|Any CPU
+		{577D399D-C84A-4D60-B695-62E176516BB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{577D399D-C84A-4D60-B695-62E176516BB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{577D399D-C84A-4D60-B695-62E176516BB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{577D399D-C84A-4D60-B695-62E176516BB8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
