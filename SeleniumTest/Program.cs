@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SeleniumTest
 {
@@ -56,49 +57,89 @@ namespace SeleniumTest
 
         }
 
-        class DateComparer : IComparer<DateTime>
-        {
-            public int Compare(DateTime x, DateTime y)
-            {
-                if (x <= y) return 1;
-                return -1;
-            }
-        }
-
         static void OPGG()
         {
-            var visitedMatches = new HashSet<string>();
-            var matches = new SortedList<DateTime, string>(new DateComparer());
-            var summoners = new List<string>() { "uroskg" };
-            while (true)
+            var visitedMatchesAndElo = new Dictionary<string, Tuple<MatchInfo, double>>();
+            var matches = new List<string>();
+
+            var initSummoner = Selenium.LoadSummoner(new List<string>() { "uroskg" }).First();
+            matches = initSummoner.Matches.Select(m => m.Id).ToList();
+            visitedMatchesAndElo = initSummoner.Matches.ToDictionary(m => m.Id, m => new Tuple<MatchInfo, double>(m, initSummoner.ELO));
+
+            //var matches = new SortedList<string, MatchInfo>(new MatchInfoComparer(visitedMatchesAndElo));
+            var iteration = 0;
+            Parallel.ForEach(Enumerable.Range(0, 3), _ =>
             {
-                if (!summoners.Any())
+                var summoners = new List<string>();
+                MatchInfo currMatch = null;
+                while (true)
                 {
-                    if (!matches.Any()) break;
-                    var currMatchId = matches.First();
-                    matches.RemoveAt(0);
-                    var currMatch = Db.LoadMatch(currMatchId.Value);
-                    summoners = currMatch.AllSummoners().ToList();
-                }
-                var summInfos = Selenium.LoadSummoner(summoners);
-                summoners.Clear();
-                foreach (var si in summInfos)
-                {
-                    foreach (var match in si.Matches)
+                    lock (matches)
                     {
-                        if (visitedMatches.Contains(match.Id)) continue;
-                        matches.Add(match.Time, match.Id);
-                        visitedMatches.Add(match.Id);
+                        if (!summoners.Any())
+                        {
+                            if (!matches.Any()) break;
+                            var currIndex = IndexOfMax(matches, id => MatchEloScore(visitedMatchesAndElo[id]));
+                            var currMatchId = matches[currIndex];
+
+                            //MatchEloScore(visitedMatchesAndElo[currMatchId]);
+                            //MatchEloScore(visitedMatchesAndElo[matches[0]]);
+
+                            matches.RemoveAt(currIndex);
+                            currMatch = Db.LoadMatch(currMatchId);
+                            summoners = currMatch.AllSummoners().ToList();
+                        }
+                    }
+                    var summInfos = Selenium.LoadSummoner(summoners);
+                    summoners.Clear();
+                    if (currMatch != null)
+                    {
+                        currMatch.Trainable = true;
+                        Db.SaveMatch(currMatch);
+                    }
+                    lock (matches)
+                    {
+                        foreach (var si in summInfos)
+                        {
+                            foreach (var match in si.Matches)
+                            {
+                                if (visitedMatchesAndElo.ContainsKey(match.Id)) continue;
+                                visitedMatchesAndElo[match.Id] = new Tuple<MatchInfo, double>(match, si.ELO);
+                                matches.Add(match.Id);
+                            }
+                        }
+                        Console.WriteLine("Matches ready to train " + (++iteration - 1) + ", queue size: " + matches.Count);
                     }
                 }
-                Console.WriteLine(matches.Count);
+            });
+            Console.WriteLine("Program actually finished!?");
+        }
+
+        private static int IndexOfMax<T>(IEnumerable<T> collection, Func<T, double> score)
+        {
+            if (!collection.Any()) return -1;
+            double bestScoreSoFar = score(collection.First());
+            int index = 0;
+            int bestIndexSoFar = index;
+            foreach (var item in collection.Skip(1))
+            {
+                ++index;
+                var itemScore = score(item);
+                if (itemScore > bestScoreSoFar)
+                {
+                    bestScoreSoFar = itemScore;
+                    bestIndexSoFar = index;
+                }
             }
+            return bestIndexSoFar;
+        }
 
-            //Match has to include each summoner and their opscore, id is required
-            //expand match after first checking the id and cache/db
-            //
-
-
+        private static double MatchEloScore(Tuple<MatchInfo, double> matchElo)
+        {
+            var existingSumms = matchElo.Item1.AllSummoners().Select(name => Db.LoadSummoner(name)).Count(si => (si != null && (DateTime.Now - si.LastUpdated).TotalMinutes < Config.DEFAULT_MAX_AGE));
+            var hoursAgo = (DateTime.Now - matchElo.Item1.Time).TotalHours;
+            var score = existingSumms * 5 - hoursAgo + matchElo.Item2 * 25 / 1000.0;
+            return score;
         }
 
     }

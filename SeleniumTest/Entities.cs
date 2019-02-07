@@ -7,37 +7,13 @@ using System.Threading.Tasks;
 namespace SeleniumTest
 {
     [Serializable]
-    public class SummonerInfo
-    {
-        public string Name = "";
-        public string Id = "";
-        public DateTime LastUpdated = DateTime.Now;
-        public double ELO = 1500;
-        public MatchInfo[] Matches = new MatchInfo[0];
-
-        public IEnumerable<string> AllSummonersDistinct()
-        {
-            var seen = new HashSet<string>();
-            foreach(var match in Matches)
-            {
-                foreach(var summ in match.AllSummoners())
-                {
-                    if (seen.Contains(summ)) continue;
-                    seen.Add(summ);
-                    yield return summ;
-                }
-            }
-        }
-
-    }
-
-    [Serializable]
     public class MatchInfo
     {
         public DateTime Time = DateTime.Now;
         public string Id = "";
         public List<Tuple<string, double>> TeamA = new List<Tuple<string, double>>();
         public List<Tuple<string, double>> TeamB = new List<Tuple<string, double>>();
+        public bool Trainable = false;
 
         public double GetOpScore(string summoner)
         {
@@ -71,6 +47,31 @@ namespace SeleniumTest
         public IEnumerable<string> AllSummoners()
         {
             return TeamA.Concat(TeamB).Select(x => x.Item1);
+        }
+
+    }
+
+    [Serializable]
+    public class SummonerInfo
+    {
+        public string Name = "";
+        public string Id = "";
+        public DateTime LastUpdated = DateTime.Now;
+        public double ELO = 1500;
+        public MatchInfo[] Matches = new MatchInfo[0];
+
+        public IEnumerable<string> AllSummonersDistinct()
+        {
+            var seen = new HashSet<string>();
+            foreach (var match in Matches)
+            {
+                foreach (var summ in match.AllSummoners())
+                {
+                    if (seen.Contains(summ)) continue;
+                    seen.Add(summ);
+                    yield return summ;
+                }
+            }
         }
 
     }

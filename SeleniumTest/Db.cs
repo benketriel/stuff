@@ -39,10 +39,6 @@ namespace SeleniumTest
         public static void SaveMatch(MatchInfo match)
         {
             if (string.IsNullOrWhiteSpace(match.Id)) return;
-            lock (MatchCache)
-            {
-                if (MatchCache.ContainsKey(match.Id)) return;
-            }
 
             var path = MatchPath(match.Id);
             try
@@ -76,6 +72,7 @@ namespace SeleniumTest
                 if (SummonerCache.ContainsKey(name)) return SummonerCache[name];
             }
             var path = SummonerPath(name);
+            if (!File.Exists(path)) return null;
             try
             {
                 using (Stream stream = File.Open(path, FileMode.Open))

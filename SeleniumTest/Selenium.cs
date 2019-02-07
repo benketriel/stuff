@@ -13,7 +13,7 @@ namespace SeleniumTest
 {
     public class Selenium
     {
-        public static List<SummonerInfo> LoadSummoner(List<string> names, double maxAgeMinutes = Config.DEFAULT_MAX_AGE)
+        public static List<SummonerInfo> LoadSummoner(List<string> names)
         {
             var result = new List<SummonerInfo>();
             ChromeDriver driver = null;
@@ -26,12 +26,18 @@ namespace SeleniumTest
                     {
 
                         var si = Db.LoadSummoner(name);
-                        if (si != null && (DateTime.Now - si.LastUpdated).TotalMinutes < maxAgeMinutes)
+                        if (si != null && (DateTime.Now - si.LastUpdated).TotalMinutes < Config.DEFAULT_MAX_AGE)
                         {
                             result.Add(si);
                             return;
                         }
-                        if (driver == null) driver = new ChromeDriver();
+                        if (driver == null)
+                        {
+                            var options = new ChromeOptions();
+                            options.AddArgument("--window-position=-32000,-32000");
+                            options.AddUserProfilePreference("profile.default_content_setting_values.images", 2);
+                            driver = new ChromeDriver(options);
+                        }
 
                         si = new SummonerInfo();
                         driver.Url = Config.HTTP_SUMMONER + name;
@@ -42,7 +48,7 @@ namespace SeleniumTest
                             driverIsNew = false;
                         }
 
-                        si.LastUpdated = UpdateSummoner(driver, maxAgeMinutes);
+                        si.LastUpdated = UpdateSummoner(driver, Config.DEFAULT_MAX_AGE);
 
                         LoadOnlyRankedGames(driver);
 
@@ -56,7 +62,11 @@ namespace SeleniumTest
             }
             finally
             {
-                if (driver != null) driver.Close();
+                if (driver != null)
+                {
+                    driver.Close();
+                    driver.Quit();
+                }
             }
             return result;
         }
@@ -75,7 +85,7 @@ namespace SeleniumTest
             }
         }
 
-        private static void BusyWaitFor(Func<bool> condition, int sleepMillis = 100, int timeoutMillis = Config.DEFAULT_TIMEOUT_MILLIS)
+        private static void BusyWaitFor(Func<bool> condition, int sleepMillis = Config.DEFAULT_SLEEP_MILLIS, int timeoutMillis = Config.DEFAULT_TIMEOUT_MILLIS)
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -93,7 +103,7 @@ namespace SeleniumTest
             }
         }
 
-        private static void WaitAndRetry(Action action, Func<bool> condition, int timeoutMillis = Config.DEFAULT_TIMEOUT_MILLIS, int sleepMillis = 100)
+        private static void WaitAndRetry(Action action, Func<bool> condition, int timeoutMillis = Config.DEFAULT_TIMEOUT_MILLIS, int sleepMillis = Config.DEFAULT_SLEEP_MILLIS)
         {
             if (CatchException(() => action()))
             {
@@ -146,7 +156,7 @@ namespace SeleniumTest
                 var gdprAccept = driver.FindElementsByTagName("button").Where(x => x.Text == "Continue Using Site" &&
                     x.GetAttribute("class").Contains("banner_save")).First();
                 gdprAccept.Click();
-                BusyWaitFor(() => CatchException(() => gdprAccept.Click()), 1000);
+                BusyWaitFor(() => CatchException(() => gdprAccept.Click()));
             });
         }
 
