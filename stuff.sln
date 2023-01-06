@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.329
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2048", "2048\2048.csproj", "{9956A484-6BD1-4D63-AC24-1CCC8B985F57}"
 EndProject
@@ -17,11 +17,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlTreeDownloader", "HtmlT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lib", "Lib\Lib.csproj", "{13F55EA1-0D02-4A04-B611-7C22565C8F8D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing", "Testing\Testing.csproj", "{3B365FB6-35BA-4D48-A219-168F194CB46C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PageWatcher", "PageWatcher\PageWatcher.csproj", "{D71DFC26-60FA-44BA-8356-613D490A8824}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeleniumTest", "SeleniumTest\SeleniumTest.csproj", "{577D399D-C84A-4D60-B695-62E176516BB8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalNN", "SignalNN\SignalNN.csproj", "{080A1100-4381-4F3F-A3DF-6247321BF8C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bootstrap", "Bootstrap\Bootstrap.csproj", "{5E69055B-6E58-4529-A6B5-D04F2E607306}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,10 +59,6 @@ Global
 		{13F55EA1-0D02-4A04-B611-7C22565C8F8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13F55EA1-0D02-4A04-B611-7C22565C8F8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13F55EA1-0D02-4A04-B611-7C22565C8F8D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3B365FB6-35BA-4D48-A219-168F194CB46C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3B365FB6-35BA-4D48-A219-168F194CB46C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3B365FB6-35BA-4D48-A219-168F194CB46C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3B365FB6-35BA-4D48-A219-168F194CB46C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D71DFC26-60FA-44BA-8356-613D490A8824}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D71DFC26-60FA-44BA-8356-613D490A8824}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D71DFC26-60FA-44BA-8356-613D490A8824}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -69,6 +67,14 @@ Global
 		{577D399D-C84A-4D60-B695-62E176516BB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{577D399D-C84A-4D60-B695-62E176516BB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{577D399D-C84A-4D60-B695-62E176516BB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{080A1100-4381-4F3F-A3DF-6247321BF8C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{080A1100-4381-4F3F-A3DF-6247321BF8C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{080A1100-4381-4F3F-A3DF-6247321BF8C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{080A1100-4381-4F3F-A3DF-6247321BF8C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E69055B-6E58-4529-A6B5-D04F2E607306}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E69055B-6E58-4529-A6B5-D04F2E607306}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E69055B-6E58-4529-A6B5-D04F2E607306}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E69055B-6E58-4529-A6B5-D04F2E607306}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
